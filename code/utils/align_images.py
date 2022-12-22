@@ -38,8 +38,11 @@ if __name__ == "__main__":
         print('Aligning %s ...' % img_name)
         try:
             raw_img_path = os.path.join(RAW_IMAGES_DIR, img_name)
+            
             fn = face_img_name = '%s_%02d.png' % (os.path.splitext(img_name)[0], 1)
+            
             if os.path.isfile(fn):
+                print('Already done. Go next.')
                 continue
             print('Getting landmarks...')
             for i, face_landmarks in enumerate(landmarks_detector.get_landmarks(raw_img_path), start=1):
