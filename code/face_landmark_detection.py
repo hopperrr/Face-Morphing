@@ -23,13 +23,15 @@ def calculate_margin_help(img1,img2):
 
 def crop_image(img1,img2):
     [size1,size2,diff0,diff1,avg0,avg1] = calculate_margin_help(img1,img2)
-
+    
     if(size1[0] == size2[0] and size1[1] == size2[1]):
         return [img1,img2]
 
     elif(size1[0] <= size2[0] and size1[1] <= size2[1]):
+        #print("la")
         scale0 = size1[0]/size2[0]
         scale1 = size1[1]/size2[1]
+
         if(scale0 > scale1):
             res = cv2.resize(img2,None,fx=scale0,fy=scale0,interpolation=cv2.INTER_AREA)
         else:
@@ -37,6 +39,7 @@ def crop_image(img1,img2):
         return crop_image_help(img1,res)
 
     elif(size1[0] >= size2[0] and size1[1] >= size2[1]):
+        #print("ici")
         scale0 = size2[0]/size1[0]
         scale1 = size2[1]/size1[1]
         if(scale0 > scale1):
@@ -46,28 +49,34 @@ def crop_image(img1,img2):
         return crop_image_help(res,img2)
 
     elif(size1[0] >= size2[0] and size1[1] <= size2[1]):
-        return [img1[diff0:avg0,:],img2[:,-diff1:avg1]]
+        #print("ou alors")
+        return [img1[diff0:avg0,:],img2[:,abs(diff1):avg1]]
     
     else:
-        return [img1[:,diff1:avg1],img2[-diff0:avg0,:]]
+        #print("ou bien")
+        return [img1[:,diff1:avg1],img2[abs(diff0):avg0,:]]
 
 def crop_image_help(img1,img2):
     [size1,size2,diff0,diff1,avg0,avg1] = calculate_margin_help(img1,img2)
-    
+    #print(size1,size2,diff0,diff1,avg0,avg1)
     if(size1[0] == size2[0] and size1[1] == size2[1]):
         return [img1,img2]
 
     elif(size1[0] <= size2[0] and size1[1] <= size2[1]):
-        return [img1,img2[-diff0:avg0,-diff1:avg1]]
+        #print("ici 1")
+        return [img1,img2[abs(diff0):avg0,abs(diff1):avg1]]
 
     elif(size1[0] >= size2[0] and size1[1] >= size2[1]):
+        #print("ici 2")
         return [img1[diff0:avg0,diff1:avg1],img2]
 
     elif(size1[0] >= size2[0] and size1[1] <= size2[1]):
-        return [img1[diff0:avg0,:],img2[:,-diff1:avg1]]
+        #print("ici 3")
+        return [img1[diff0:avg0,:],img2[:,abs(diff1):avg1]]
 
     else:
-        return [img1[:,diff1:avg1],img2[diff0:avg0,:]]
+        #print("ici 4")
+        return [img1[:,diff1:avg1],img2[abs(diff0):avg0,:]]
 
 def generate_face_correspondences(theImage1, theImage2):
     # Detect the points of face.
@@ -79,9 +88,10 @@ def generate_face_correspondences(theImage1, theImage2):
     list1 = []
     list2 = []
     j = 1
-
+    
     for img in imgList:
-
+        #cv2.imshow("image courrante", img)
+        #cv2.waitKey(0)
         size = (img.shape[0],img.shape[1])
         if(j == 1):
             currList = list1
@@ -91,14 +101,18 @@ def generate_face_correspondences(theImage1, theImage2):
         # Ask the detector to find the bounding boxes of each face. The 1 in the
         # second argument indicates that we should upsample the image 1 time. This
         # will make everything bigger and allow us to detect more faces.
-
-        dets = detector(img, 1)
-
+        #print(img.shape)
+        dets = detector(img, 2)
+        
+        #print(len(dets))
         try:
             if len(dets) == 0:
                 raise NoFaceFound
         except NoFaceFound:
             print("Sorry, but I couldn't find a face in the image.")
+            #cv2.imshow("no face", img)
+            #cv2.waitKey(0)
+            
 
         j=j+1
 
