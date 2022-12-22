@@ -20,20 +20,11 @@ dlib
 Getting Started
 -------------
 
-#### Test with demo images
-
-A photo of Jennie from Blackpink       |  A photo of Rihanna
-:-------------------------:|:-------------------------:
-![](/images/aligned_images/jennie.png)  |  ![](/images/aligned_images/rih.png)
-
-
 Generate a morphing animation video sequence
 
 ```
 python3 code/__init__.py --img1 images/aligned_images/jennie.png --img2 images/aligned_images/rih.png --output output.mp4
 ```
-
-![Morphed Video](results/output.gif)
 
 #### Test with your own images
 
@@ -52,19 +43,9 @@ Key Features
 3. Calculate the **triangular mesh** with Delaunay Triangulation for each intermediate shape
 4. Warp the two input images towards the intermediate shape, perform **cross-dissolve** and obtain intermediate images each frame
 
-More Results
--------------
-![Morphed Video](results/final-club-final.gif)
 
-![Morphed Video](results/ld-final.gif)
-
-
-To Do
--------------
-Morph multiple images into a complete sequence  
-Morph with body landmarks
 
 Citations
 -------------
 
-Adivces on working with facial landmarks with dlib and opencv https://www.pyimagesearch.com/2017/04/03/facial-landmarks-dlib-opencv-python/ 
+Adivce on working with facial landmarks with dlib and opencv https://www.pyimagesearch.com/2017/04/03/facial-landmarks-dlib-opencv-python/ 
